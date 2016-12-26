@@ -1,0 +1,20 @@
+{
+    "name": "laracomponents/centrifuge-broadcaster",
+    "description": "Centrifuge broadcaster for laravel 5.3",
+    "keywords": ["laravel", "centrifuge", "centrifugo", "broadcaster"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nikita Stenin",
+            "email": "stenin.nikita@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "LaraComponents\\Centrifuge\\": "src/Centrifuge/"
+        }
+    }
+}
