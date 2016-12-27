@@ -61,11 +61,10 @@ class CentrifugeBroadcaster extends Broadcaster
      */
     public function broadcast(array $channels, $event, array $payload = [])
     {
-        $payload = ['event' => $event, 'data' => $payload];
+        $payload['event'] = $event;
 
         try {
             $response = $this->centrifuge->broadcast($this->formatChannels($channels), $payload);
-            dd($response);
         } catch (Exception $e) {
             throw new BroadcastException($e->getMessage());
         }
