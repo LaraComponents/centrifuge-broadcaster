@@ -143,6 +143,48 @@ class Centrifuge
         return $this->send('stats');
     }
 
+    /**
+     * Generate client connection token
+     *
+     * @param string $user
+     * @param string $timestamp
+     * @param string $info
+     * @return string
+     */
+    public function generateToken($user, $timestamp, $info = "")
+    {
+        $ctx = hash_init("sha256", HASH_HMAC, $this->secret);
+        hash_update($ctx, $user);
+        hash_update($ctx, $timestamp);
+        hash_update($ctx, $info);
+
+        return hash_final($ctx);
+    }
+
+    /**
+     * Generates connection settings for centrifuge client
+     *
+     * @param bool $isSockJS
+     * @param array $options
+     * @return array
+     */
+    public function getConnection($user, $isSockJS = false, $options = [])
+    {
+        $timestamp = (string) time();
+        $user = $user ? (string) $user  : '';
+
+        $info = array_key_exists('info', $options) ? $options['info'] : '';
+        return array_merge(
+            $options,
+            [
+                'url'       => rtrim($this->endpoint, '/') . ($isSockJS ? '/connection' : ''),
+                'user'      => $user,
+                'timestamp' => $timestamp,
+                'token'     => $this->generateToken($info, $timestamp, $info),
+            ]
+        );
+    }
+
     public function generateApiSign(string $data)
     {
         $ctx = hash_init("sha256", HASH_HMAC, $this->secret);
