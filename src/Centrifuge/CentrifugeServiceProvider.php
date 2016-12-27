@@ -15,11 +15,10 @@ class CentrifugeServiceProvider extends ServiceProvider
     public function boot(BroadcastManager $broadcastManager)
     {
         $broadcastManager->extend('centrifuge', function ($app, $config) {
-            return new CentrifugeBroadcaster(
-                new Centrifuge($config['endpoint'], $config['secret'])
-            );
+            return new CentrifugeBroadcaster($app['centrifuge']);
         });
     }
+
     /**
      * Register centrifuge services.
      *
@@ -27,6 +26,9 @@ class CentrifugeServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('centrifuge', CentrifugeManager::class);
+        $this->app->singleton('centrifuge', function($app) {
+            $config = $this->app['config']["broadcasting.connections.centrifuge"];
+            return new Centrifuge($config['endpoint'], $config['secret']);
+        });
     }
 }
