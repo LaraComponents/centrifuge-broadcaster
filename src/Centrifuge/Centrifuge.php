@@ -192,6 +192,16 @@ class Centrifuge
         return hash_final($ctx);
     }
 
+    public function generateChannelSign($client, $channel, $info = '')
+    {
+        $ctx = hash_init('sha256', HASH_HMAC, $this->secret);
+        hash_update($ctx, (string) $client);
+        hash_update($ctx, (string) $channel);
+        hash_update($ctx, (string) $info);
+
+        return hash_final($ctx);
+    }
+
     protected function send($method, $params = [])
     {
         $data = json_encode(["method" => $method, "params" => $params]);

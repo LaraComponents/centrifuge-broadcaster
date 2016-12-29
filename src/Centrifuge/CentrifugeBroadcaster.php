@@ -36,7 +36,25 @@ class CentrifugeBroadcaster extends Broadcaster
      */
     public function auth($request)
     {
-        return true;
+        if ($request->user()) {
+            $client = $request->get('client', '');
+            $channels = $request->get('channels', []);
+            $channels = is_array($channels) ? $channels : [$channels];
+
+            $response = [];
+            $info = json_encode([]);
+            foreach ($channels as $channel) {
+                $response[$channel] = [
+                    'sign' => $this->centrifuge->generateChannelSign($client, $channel, $info),
+                    'info' => $info
+                ];
+            }
+
+            return response()->json($response);
+        }
+        else {
+            throw new HttpException(401);
+        }
     }
 
     /**
