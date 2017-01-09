@@ -44,9 +44,18 @@ class CentrifugeBroadcaster extends Broadcaster
             $response = [];
             $info = json_encode([]);
             foreach ($channels as $channel) {
-                $response[$channel] = [
+                try {
+                    $result = parent::verifyUserCanAccessChannel($request, $channel);
+                }
+                catch(HttpException $e) {
+                    $result = false;
+                }
+
+                $response[$channel] = $result ? [
                     'sign' => $this->centrifuge->generateChannelSign($client, $channel, $info),
                     'info' => $info
+                ] : [
+                    'status' => 403
                 ];
             }
 
@@ -66,7 +75,7 @@ class CentrifugeBroadcaster extends Broadcaster
      */
     public function validAuthenticationResponse($request, $result)
     {
-
+        return $result;
     }
 
     /**
@@ -83,7 +92,8 @@ class CentrifugeBroadcaster extends Broadcaster
 
         try {
             $response = $this->centrifuge->broadcast($this->formatChannels($channels), $payload);
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             throw new BroadcastException($e->getMessage());
         }
     }
