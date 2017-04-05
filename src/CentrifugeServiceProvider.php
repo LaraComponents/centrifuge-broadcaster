@@ -2,8 +2,11 @@
 
 namespace LaraComponents\Centrifuge;
 
+use GuzzleHttp\Client as HttpClient;
 use Illuminate\Broadcasting\BroadcastManager;
 use Illuminate\Support\ServiceProvider;
+use LaraComponents\Centrifuge\Centrifuge;
+use LaraComponents\Centrifuge\CentrifugeBroadcaster;
 
 class CentrifugeServiceProvider extends ServiceProvider
 {
@@ -19,16 +22,17 @@ class CentrifugeServiceProvider extends ServiceProvider
         });
     }
 
-    /**
-     * Register centrifuge services.
-     *
-     * @return void
-     */
     public function register()
     {
         $this->app->singleton('centrifuge', function($app) {
-            $config = $this->app['config']["broadcasting.connections.centrifuge"];
-            return new Centrifuge($config['endpoint'], $config['secret']);
+            $config = $app['config']['broadcasting.connections.centrifuge'];
+            $http = new HttpClient();
+            $redis = $app['redis']->connection($config['redis_connection']);
+
+            return new Centrifuge($config, $http, $redis);
         });
+
+        $this->app->alias('centrifuge', 'LaraComponents\Centrifuge\Centrifuge');
+        $this->app->alias('centrifuge', 'LaraComponents\Centrifuge\Contracts\Centrifuge');
     }
 }

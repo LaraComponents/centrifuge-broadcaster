@@ -2,10 +2,10 @@
 
 namespace LaraComponents\Centrifuge;
 
+use Exception;
 use Illuminate\Broadcasting\BroadcastException;
 use Illuminate\Broadcasting\Broadcasters\Broadcaster;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
+use LaraComponents\Centrifuge\Contracts\Centrifuge;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CentrifugeBroadcaster extends Broadcaster
@@ -13,14 +13,14 @@ class CentrifugeBroadcaster extends Broadcaster
     /**
      * The Centrifuge SDK instance.
      *
-     * @var \LaraComponents\Centrifuge\Centrifuge
+     * @var \LaraComponents\Centrifuge\Contracts\Centrifuge
      */
     protected $centrifuge;
 
     /**
      * Create a new broadcaster instance.
      *
-     * @param  \LaraComponents\Centrifuge\Centrifuge  $pusher
+     * @param  \LaraComponents\Centrifuge\Contracts\Centrifuge  $centrifuge
      * @return void
      */
     public function __construct(Centrifuge $centrifuge)
@@ -52,7 +52,7 @@ class CentrifugeBroadcaster extends Broadcaster
                 }
 
                 $response[$channel] = $result ? [
-                    'sign' => $this->centrifuge->generateChannelSign($client, $channel, $info),
+                    'sign' => $this->centrifuge->generateToken($client, $channel, $info),
                     'info' => $info
                 ] : [
                     'status' => 403
@@ -99,9 +99,9 @@ class CentrifugeBroadcaster extends Broadcaster
     }
 
     /**
-     * Get the CentrifugeManager instance.
+     * Get the Centrifuge instance.
      *
-     * @return \LaraComponents\Centrifuge\Centrifuge
+     * @return \LaraComponents\Centrifuge\Contracts\Centrifuge
      */
     public function getCentrifuge()
     {

@@ -1,6 +1,6 @@
 {
     "name": "laracomponents/centrifuge-broadcaster",
-    "description": "Centrifuge broadcaster for laravel 5.3",
+    "description": "Centrifuge broadcaster for laravel >= 5.3",
     "keywords": ["laravel", "centrifuge", "centrifugo", "broadcaster"],
     "license": "MIT",
     "authors": [
@@ -9,12 +9,19 @@
             "email": "stenin.nikita@gmail.com"
         }
     ],
+    "homepage": "https://github.com/LaraComponents/centrifuge-broadcaster",
+    "support": {
+        "issues": "https://github.com/LaraComponents/centrifuge-broadcaster/issues",
+        "source": "https://github.com/LaraComponents/centrifuge-broadcaster"
+    },
     "require": {
+        "php": ">=5.6.4",
         "guzzlehttp/guzzle": "^6.2"
     },
     "autoload": {
         "psr-4": {
-            "LaraComponents\\Centrifuge\\": "src/Centrifuge/"
+            "LaraComponents\\Centrifuge\\": "src/"
         }
-    }
+    },
+    "prefer-stable": true
 }
