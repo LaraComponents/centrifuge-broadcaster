@@ -50,7 +50,7 @@ interface Centrifuge
     public function unsubscribe($user_id, $channel = null);
 
     /**
-     * Disconnect user by its ID
+     * Disconnect user by its ID.
      *
      * @param string $user_id
      * @return mixed
@@ -72,17 +72,17 @@ interface Centrifuge
     public function stats();
 
     /**
-     * Generate token
+     * Generate token.
      *
      * @param string $userOrClient
      * @param string $timestampOrChannel
      * @param string $info
      * @return string
      */
-    public function generateToken($userOrClient, $timestampOrChannel, $info = "");
+    public function generateToken($userOrClient, $timestampOrChannel, $info = '');
 
     /**
-     * Generate api sign
+     * Generate api sign.
      *
      * @param string $data
      * @return string
