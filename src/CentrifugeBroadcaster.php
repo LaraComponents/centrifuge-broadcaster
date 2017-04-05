@@ -4,8 +4,8 @@ namespace LaraComponents\Centrifuge;
 
 use Exception;
 use Illuminate\Broadcasting\BroadcastException;
-use Illuminate\Broadcasting\Broadcasters\Broadcaster;
 use LaraComponents\Centrifuge\Contracts\Centrifuge;
+use Illuminate\Broadcasting\Broadcasters\Broadcaster;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CentrifugeBroadcaster extends Broadcaster
@@ -46,22 +46,20 @@ class CentrifugeBroadcaster extends Broadcaster
             foreach ($channels as $channel) {
                 try {
                     $result = parent::verifyUserCanAccessChannel($request, $channel);
-                }
-                catch(HttpException $e) {
+                } catch (HttpException $e) {
                     $result = false;
                 }
 
                 $response[$channel] = $result ? [
                     'sign' => $this->centrifuge->generateToken($client, $channel, $info),
-                    'info' => $info
+                    'info' => $info,
                 ] : [
-                    'status' => 403
+                    'status' => 403,
                 ];
             }
 
             return response()->json($response);
-        }
-        else {
+        } else {
             throw new HttpException(401);
         }
     }
@@ -92,8 +90,7 @@ class CentrifugeBroadcaster extends Broadcaster
 
         try {
             $response = $this->centrifuge->broadcast($this->formatChannels($channels), $payload);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             throw new BroadcastException($e->getMessage());
         }
     }
