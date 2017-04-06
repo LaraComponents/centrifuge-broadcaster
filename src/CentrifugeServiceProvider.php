@@ -2,10 +2,10 @@
 
 namespace LaraComponents\Centrifuge;
 
-use Predis\Client as RedisClient;
 use GuzzleHttp\Client as HttpClient;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Broadcasting\BroadcastManager;
+use Illuminate\Support\ServiceProvider;
+use Predis\Client as RedisClient;
 
 class CentrifugeServiceProvider extends ServiceProvider
 {
