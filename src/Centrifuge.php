@@ -83,7 +83,7 @@ class Centrifuge implements CentrifugeContract
      * @param string $client
      * @return mixed
      */
-    public function publish(string $channel, array $data, $client = null)
+    public function publish($channel, array $data, $client = null)
     {
         $params = ['channel' => $channel, 'data' => $data];
 
@@ -119,7 +119,7 @@ class Centrifuge implements CentrifugeContract
      * @param string $channel
      * @return mixed
      */
-    public function presence(string $channel)
+    public function presence($channel)
     {
         return $this->send('presence', ['channel' => $channel]);
     }
@@ -130,7 +130,7 @@ class Centrifuge implements CentrifugeContract
      * @param string $channel
      * @return mixed
      */
-    public function history(string $channel)
+    public function history($channel)
     {
         return $this->send('history', ['channel' => $channel]);
     }
@@ -233,7 +233,7 @@ class Centrifuge implements CentrifugeContract
      * @param  array  $params
      * @return mixed
      */
-    protected function send(string $method, array $params = [])
+    protected function send($method, array $params = [])
     {
         try {
             if ($this->config['redis_api'] === true && ! is_null($this->redisClient) && in_array($method, $this->redisMethods)) {
@@ -259,7 +259,7 @@ class Centrifuge implements CentrifugeContract
      * @param  array  $params
      * @return mixed
      */
-    protected function httpSend(string $method, array $params = [])
+    protected function httpSend($method, array $params = [])
     {
         $json = json_encode(['method' => $method, 'params' => $params]);
 
@@ -307,7 +307,7 @@ class Centrifuge implements CentrifugeContract
      * @param  array  $params
      * @return mixed
      */
-    protected function redisSend(string $method, array $params = [])
+    protected function redisSend($method, array $params = [])
     {
         $json = json_encode(['method' => $method, 'params' => $params]);
 

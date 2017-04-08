@@ -12,7 +12,7 @@ interface Centrifuge
      * @param string $client
      * @return mixed
      */
-    public function publish(string $channel, array $data, $client = null);
+    public function publish($channel, array $data, $client = null);
 
     /**
      * Send message into multiple channel.
@@ -30,7 +30,7 @@ interface Centrifuge
      * @param string $channel
      * @return mixed
      */
-    public function presence(string $channel);
+    public function presence($channel);
 
     /**
      * Get channel history information (list of last messages sent into channel).
@@ -38,7 +38,7 @@ interface Centrifuge
      * @param string $channel
      * @return mixed
      */
-    public function history(string $channel);
+    public function history($channel);
 
     /**
      * Unsubscribe user from channel.
