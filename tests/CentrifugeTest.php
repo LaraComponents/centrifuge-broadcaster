@@ -63,7 +63,7 @@ class CentrifugeTest extends TestCase
 
         $history = $this->centrifuge->history('test-channel');
         $this->assertEquals($history['method'], 'history');
-        $this->assertEquals($history['error'], null);
+        $this->assertEquals($history['error'], 'not available');
         $this->assertEquals($history['body']['channel'], 'test-channel');
 
         $channels = $this->centrifuge->channels();
