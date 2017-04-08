@@ -92,7 +92,9 @@ class CentrifugeBroadcaster extends Broadcaster
             return;
         }
 
-        throw new BroadcastException($response['error']);
+        throw new BroadcastException(
+            $response['error'] instanceof Exception ? $response['error']->getMessage() : $response['error']
+        );
     }
 
     /**
