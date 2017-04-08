@@ -4,9 +4,9 @@ namespace LaraComponents\Centrifuge;
 
 use Exception;
 use Illuminate\Broadcasting\BroadcastException;
-use LaraComponents\Centrifuge\Contracts\Centrifuge;
 use Illuminate\Broadcasting\Broadcasters\Broadcaster;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use LaraComponents\Centrifuge\Contracts\Centrifuge as CentrifugeContract;
 
 class CentrifugeBroadcaster extends Broadcaster
 {
@@ -21,9 +21,8 @@ class CentrifugeBroadcaster extends Broadcaster
      * Create a new broadcaster instance.
      *
      * @param  \LaraComponents\Centrifuge\Contracts\Centrifuge  $centrifuge
-     * @return void
      */
-    public function __construct(Centrifuge $centrifuge)
+    public function __construct(CentrifugeContract $centrifuge)
     {
         $this->centrifuge = $centrifuge;
     }
@@ -45,7 +44,7 @@ class CentrifugeBroadcaster extends Broadcaster
             $info = json_encode([]);
             foreach ($channels as $channel) {
                 try {
-                    $result = parent::verifyUserCanAccessChannel($request, $channel);
+                    $result = $this->verifyUserCanAccessChannel($request, $channel);
                 } catch (HttpException $e) {
                     $result = false;
                 }
@@ -88,11 +87,13 @@ class CentrifugeBroadcaster extends Broadcaster
     {
         $payload['event'] = $event;
 
-        try {
-            $response = $this->centrifuge->broadcast($this->formatChannels($channels), $payload);
-        } catch (Exception $e) {
-            throw new BroadcastException($e->getMessage());
+        $response = $this->centrifuge->broadcast($this->formatChannels($channels), $payload);
+
+        if ((is_array($response) && is_null($response['error'])) {
+            return;
         }
+
+        throw new BroadcastException($response['error']);
     }
 
     /**
