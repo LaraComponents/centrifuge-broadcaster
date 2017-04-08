@@ -16,7 +16,7 @@ class CentrifugeServiceProvider extends ServiceProvider
      */
     public function boot(BroadcastManager $broadcastManager)
     {
-        $broadcastManager->extend('centrifuge', function ($app, $config) {
+        $broadcastManager->extend('centrifuge', function ($app) {
             return new CentrifugeBroadcaster($app->make('centrifuge'));
         });
     }

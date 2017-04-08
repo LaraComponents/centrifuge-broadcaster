@@ -312,7 +312,7 @@ class Centrifuge implements CentrifugeContract
         $json = json_encode(['method' => $method, 'params' => $params]);
 
         try {
-            $result = $this->redisClient->rpush($this->getQueueKey(), $json);
+            $this->redisClient->rpush($this->getQueueKey(), $json);
         } catch (PredisException $e) {
             throw $e;
         }
