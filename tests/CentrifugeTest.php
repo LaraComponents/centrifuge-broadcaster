@@ -10,7 +10,7 @@ class CentrifugeTest extends TestCase
         $user_id = 1;
         $info = json_encode([
             'first_name' => 'Nikita',
-            'last_name' => 'Stenin'
+            'last_name' => 'Stenin',
         ]);
         $client = '0c951315-be0e-4516-b99e-05e60b0cc307';
         $channel = 'test-channel';
@@ -68,10 +68,10 @@ class CentrifugeTest extends TestCase
 
         $channels = $this->centrifuge->channels();
         $this->assertEquals($channels, [
-            "method" => "channels",
-            "error" => null,
-            "body" => [
-                "data" => [],
+            'method' => 'channels',
+            'error' => null,
+            'body' => [
+                'data' => [],
             ],
         ]);
 
