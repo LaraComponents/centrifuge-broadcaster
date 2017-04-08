@@ -244,7 +244,7 @@ class Centrifuge implements CentrifugeContract
         } catch (Exception $e) {
             $result = [
                 'method' => $method,
-                'error'  => $e,
+                'error'  => $e->getMessage(),
                 'body'   => $params,
             ];
         }
