@@ -89,7 +89,7 @@ class CentrifugeBroadcaster extends Broadcaster
 
         $response = $this->centrifuge->broadcast($this->formatChannels($channels), $payload);
 
-        if ((is_array($response) && is_null($response['error'])) {
+        if (is_array($response) && is_null($response['error'])) {
             return;
         }
 
