@@ -34,5 +34,6 @@
             "LaraComponents\\Centrifuge\\Test\\": "tests/"
         }
     },
+    "minimum-stability": "dev",
     "prefer-stable": true
 }

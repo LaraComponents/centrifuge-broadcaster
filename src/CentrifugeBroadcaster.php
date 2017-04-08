@@ -2,6 +2,7 @@
 
 namespace LaraComponents\Centrifuge;
 
+use Exception;
 use Illuminate\Broadcasting\BroadcastException;
 use Illuminate\Broadcasting\Broadcasters\Broadcaster;
 use Symfony\Component\HttpKernel\Exception\HttpException;

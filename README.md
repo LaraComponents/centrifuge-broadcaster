@@ -139,7 +139,7 @@ class ExampleController extends Controller
 |------|-------------|
 | publish(string $channel, array $data, string $client = null) | Send message into channel. |
 | broadcast(array $channels, array $data, string $client = null) | Send message into multiple channel. |
-| presense(string $channel) | Get channel presence information (all clients currently subscribed on this channel). |
+| presence(string $channel) | Get channel presence information (all clients currently subscribed on this channel). |
 | history(string $channel) | Get channel history information (list of last messages sent into channel). |
 | unsubscribe(string $user_id, string $channel = null) | Unsubscribe user from channel. |
 | disconnect(string $user_id) | Disconnect user by its ID. |
@@ -150,4 +150,4 @@ class ExampleController extends Controller
 
 ## License
 
-The MIT License (MIT). Please see <a href="https://github.com/LaraComponents/centrifuge-broadcaster/blob/master/LICENSE">License File</a> for more information.
+The MIT License (MIT). Please see [License File](https://github.com/LaraComponents/centrifuge-broadcaster/blob/master/LICENSE) for more information.
