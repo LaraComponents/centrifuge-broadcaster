@@ -30,7 +30,7 @@ interface Centrifuge
      * @param string $channel
      * @return mixed
      */
-    public function presense(string $channel);
+    public function presence(string $channel);
 
     /**
      * Get channel history information (list of last messages sent into channel).

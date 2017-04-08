@@ -119,7 +119,7 @@ class Centrifuge implements CentrifugeContract
      * @param string $channel
      * @return mixed
      */
-    public function presense(string $channel)
+    public function presence(string $channel)
     {
         return $this->send('presence', ['channel' => $channel]);
     }
