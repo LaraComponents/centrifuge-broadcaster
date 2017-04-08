@@ -28,7 +28,7 @@ cache:
 
 before_install:
   - docker pull centrifugo/centrifugo
-  - docker run -d --ulimit nofile=65536:65536 -p 8000:8000 centrifugo/centrifugo centrifugo -c /tests/config.json &
+  - docker run -d --ulimit nofile=65536:65536 -p 8000:8000 centrifugo/centrifugo centrifugo -c /tests/config.json
   - docker ps -a
   - travis_retry composer self-update
 
