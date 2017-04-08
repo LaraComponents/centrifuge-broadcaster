@@ -1,0 +1,12 @@
+{
+    "address": "localhost",
+    "anonymous": true,
+    "engine": "memory",
+    "insecure": true,
+    "join_leave": true,
+    "port": 8000,
+    "presence": true,
+    "publish": true,
+    "secret": "f95bf295-bee6-4259-8912-0a58f4ecd30e",
+    "watch": true
+}

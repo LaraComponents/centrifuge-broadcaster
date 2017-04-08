@@ -20,9 +20,18 @@
         "predis/predis": "^1.1",
         "illuminate/broadcasting": "^5.3"
     },
+    "require-dev": {
+        "orchestra/testbench": "^3.4",
+        "phpunit/phpunit": "^6.1"
+    },
     "autoload": {
         "psr-4": {
             "LaraComponents\\Centrifuge\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LaraComponents\\Centrifuge\\Test\\": "tests/"
         }
     },
     "prefer-stable": true
