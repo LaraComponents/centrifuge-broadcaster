@@ -43,8 +43,10 @@ class CentrifugeBroadcaster extends Broadcaster
             $response = [];
             $info = json_encode([]);
             foreach ($channels as $channel) {
+                $channelName = (substr($channel, 0, 1) === '$') ? substr($channel, 1) : $channel;
+
                 try {
-                    $result = $this->verifyUserCanAccessChannel($request, $channel);
+                    $result = $this->verifyUserCanAccessChannel($request, $channelName);
                 } catch (HttpException $e) {
                     $result = false;
                 }
@@ -87,7 +89,13 @@ class CentrifugeBroadcaster extends Broadcaster
     {
         $payload['event'] = $event;
 
-        $response = $this->centrifuge->broadcast($this->formatChannels($channels), $payload);
+        $socket = null;
+        if(array_key_exists('socket', $payload)) {
+            $socket = $payload['socket'];
+            unset($payload['socket']);
+        }
+
+        $response = $this->centrifuge->broadcast($this->formatChannels($channels), $payload, $socket);
 
         if (is_array($response) && is_null($response['error'])) {
             return;
