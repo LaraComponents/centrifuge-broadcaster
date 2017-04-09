@@ -90,7 +90,7 @@ class CentrifugeBroadcaster extends Broadcaster
         $payload['event'] = $event;
 
         $socket = null;
-        if(array_key_exists('socket', $payload)) {
+        if (array_key_exists('socket', $payload)) {
             $socket = $payload['socket'];
             unset($payload['socket']);
         }
