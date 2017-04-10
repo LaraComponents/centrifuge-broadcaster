@@ -3,11 +3,11 @@
 namespace LaraComponents\Centrifuge;
 
 use Exception;
-use Predis\PredisException;
-use Predis\Client as RedisClient;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\ClientException;
 use LaraComponents\Centrifuge\Contracts\Centrifuge as CentrifugeContract;
+use Predis\Client as RedisClient;
+use Predis\PredisException;
 
 class Centrifuge implements CentrifugeContract
 {

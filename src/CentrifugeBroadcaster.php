@@ -5,6 +5,7 @@ namespace LaraComponents\Centrifuge;
 use Exception;
 use Illuminate\Broadcasting\BroadcastException;
 use Illuminate\Broadcasting\Broadcasters\Broadcaster;
+use LaraComponents\Centrifuge\Contracts\Centrifuge;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use LaraComponents\Centrifuge\Contracts\Centrifuge as CentrifugeContract;
 
