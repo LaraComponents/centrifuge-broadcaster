@@ -22,7 +22,8 @@
         "illuminate/broadcasting": "^5.3"
     },
     "require-dev": {
-        "orchestra/testbench": "^3.3"
+        "orchestra/testbench": "^3.3",
+        "phpunit/phpunit": "^5.7|^6.1"
     },
     "autoload": {
         "psr-4": {
