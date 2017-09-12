@@ -1,5 +1,6 @@
 {
     "name": "laracomponents/centrifuge-broadcaster",
+    "type": "library",
     "description": "Centrifuge broadcaster for laravel >= 5.3",
     "keywords": ["laravel", "centrifuge", "centrifugo", "broadcaster"],
     "license": "MIT",
@@ -33,6 +34,16 @@
         "psr-4": {
             "LaraComponents\\Centrifuge\\Test\\": "tests/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LaraComponents\\Centrifuge\\CentrifugeServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
     },
     "minimum-stability": "dev",
     "prefer-stable": true
