@@ -11,7 +11,6 @@ use LaraComponents\Centrifuge\Contracts\Centrifuge as CentrifugeContract;
 
 class Centrifuge implements CentrifugeContract
 {
-
     const REDIS_SUFFIX = '.api';
 
     const API_PATH = '/api';
@@ -45,7 +44,7 @@ class Centrifuge implements CentrifugeContract
      */
     public function __construct(array $config, HttpClient $httpClient, RedisClient $redisClient = null)
     {
-        $this->httpClient  = $httpClient;
+        $this->httpClient = $httpClient;
         $this->redisClient = $redisClient;
 
         $this->config = $this->initConfiguration($config);
@@ -147,7 +146,7 @@ class Centrifuge implements CentrifugeContract
      */
     public function unsubscribe($user_id, $channel = null)
     {
-        $params = ['user' => (string)$user_id];
+        $params = ['user' => (string) $user_id];
 
         if (! is_null($channel)) {
             $params['channel'] = $channel;
@@ -164,7 +163,7 @@ class Centrifuge implements CentrifugeContract
      */
     public function disconnect($user_id)
     {
-        return $this->send('disconnect', ['user' => (string)$user_id]);
+        return $this->send('disconnect', ['user' => (string) $user_id]);
     }
 
     /**
@@ -198,9 +197,9 @@ class Centrifuge implements CentrifugeContract
     public function generateToken($userOrClient, $timestampOrChannel, $info = '')
     {
         $ctx = hash_init('sha256', HASH_HMAC, $this->getSecret());
-        hash_update($ctx, (string)$userOrClient);
-        hash_update($ctx, (string)$timestampOrChannel);
-        hash_update($ctx, (string)$info);
+        hash_update($ctx, (string) $userOrClient);
+        hash_update($ctx, (string) $timestampOrChannel);
+        hash_update($ctx, (string) $info);
 
         return hash_final($ctx);
     }
@@ -214,7 +213,7 @@ class Centrifuge implements CentrifugeContract
     public function generateApiSign($data)
     {
         $ctx = hash_init('sha256', HASH_HMAC, $this->getSecret());
-        hash_update($ctx, (string)$data);
+        hash_update($ctx, (string) $data);
 
         return hash_final($ctx);
     }
@@ -273,7 +272,6 @@ class Centrifuge implements CentrifugeContract
         ];
 
         try {
-
             $url = parse_url($this->prepareUrl());
 
             $config = collect([
@@ -283,7 +281,6 @@ class Centrifuge implements CentrifugeContract
             ]);
 
             if ($url['scheme'] == 'https') {
-
                 $config->put('verify', collect($this->config)->get('verify', false));
 
                 if (collect($this->config)->get('ssl_key')) {
@@ -293,8 +290,7 @@ class Centrifuge implements CentrifugeContract
 
             $response = $this->httpClient->post($this->prepareUrl(), $config->toArray());
 
-
-            $finally = json_decode((string)$response->getBody(), true)[0];
+            $finally = json_decode((string) $response->getBody(), true)[0];
         } catch (ClientException $e) {
             throw $e;
         }
@@ -350,8 +346,8 @@ class Centrifuge implements CentrifugeContract
      */
     protected function getQueueKey()
     {
-        $apiKey    = $this->config['redis_prefix'].self::REDIS_SUFFIX;
-        $numShards = (int)$this->config['redis_num_shards'];
+        $apiKey = $this->config['redis_prefix'].self::REDIS_SUFFIX;
+        $numShards = (int) $this->config['redis_num_shards'];
 
         if ($numShards > 0) {
             return sprintf('%s.%d', $apiKey, rand(0, $numShards - 1));
