@@ -50,6 +50,8 @@ Open your config/broadcasting.php and add the following to it:
         'redis_connection' => env('CENTRIFUGE_REDIS_CONNECTION', 'default'), // name of redis connection
         'redis_prefix' => env('CENTRIFUGE_REDIS_PREFIX', 'centrifugo'), // prefix name for queue in Redis
         'redis_num_shards' => env('CENTRIFUGE_REDIS_NUM_SHARDS', 0), // number of shards for redis API queue
+        'verify' => env('CENTRIFUGE_VERIFY', false), // Verify host ssl if centrifuge uses this
+        'ssl_key' => env('CENTRIFUGE_SSL_KEY', null), // Self-Signed SSl Key for Host (require verify=true)
     ],
     // ...
 ],
@@ -90,6 +92,8 @@ CENTRIFUGE_REDIS_API=false
 CENTRIFUGE_REDIS_CONNECTION=default
 CENTRIFUGE_REDIS_PREFIX=centrifugo
 CENTRIFUGE_REDIS_NUM_SHARDS=0
+CENTRIFUGE_SSL_KEY=/etc/ssl/some.pem
+CENTRIFUGE_VERIFY=false
 ```
 
 Do not forget to install the broadcast driver

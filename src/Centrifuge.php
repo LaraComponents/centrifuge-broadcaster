@@ -38,9 +38,9 @@ class Centrifuge implements CentrifugeContract
     /**
      * Create a new Centrifuge instance.
      *
-     * @param array                 $config
-     * @param \GuzzleHttp\Client    $httpClient
-     * @param \Predis\Client|null   $redisClient
+     * @param array $config
+     * @param \GuzzleHttp\Client $httpClient
+     * @param \Predis\Client|null $redisClient
      */
     public function __construct(array $config, HttpClient $httpClient, RedisClient $redisClient = null)
     {
@@ -53,17 +53,19 @@ class Centrifuge implements CentrifugeContract
     /**
      * Init centrifuge configuration.
      *
-     * @param  array  $config
+     * @param  array $config
      * @return array
      */
     protected function initConfiguration(array $config)
     {
         $defaults = [
-            'url' => 'http://localhost:8000',
-            'secret' => null,
-            'redis_api' => false,
-            'redis_prefix' => 'centrifugo',
+            'url'              => 'http://localhost:8000',
+            'secret'           => null,
+            'redis_api'        => false,
+            'redis_prefix'     => 'centrifugo',
             'redis_num_shards' => 0,
+            'ssl_key'          => null,
+            'verify'           => true,
         ];
 
         foreach ($config as $key => $value) {
@@ -230,13 +232,14 @@ class Centrifuge implements CentrifugeContract
      * Send message to centrifuge server.
      *
      * @param  string $method
-     * @param  array  $params
+     * @param  array $params
      * @return mixed
      */
     protected function send($method, array $params = [])
     {
         try {
-            if ($this->config['redis_api'] === true && ! is_null($this->redisClient) && in_array($method, $this->redisMethods)) {
+            if ($this->config['redis_api'] === true && ! is_null($this->redisClient) && in_array($method,
+                    $this->redisMethods)) {
                 $result = $this->redisSend($method, $params);
             } else {
                 $result = $this->httpSend($method, $params);
@@ -256,7 +259,7 @@ class Centrifuge implements CentrifugeContract
      * Send message to centrifuge server from http client.
      *
      * @param  string $method
-     * @param  array  $params
+     * @param  array $params
      * @return mixed
      */
     protected function httpSend($method, array $params = [])
@@ -265,15 +268,27 @@ class Centrifuge implements CentrifugeContract
 
         $headers = [
             'Content-type' => 'application/json',
-            'X-API-Sign' => $this->generateApiSign($json),
+            'X-API-Sign'   => $this->generateApiSign($json),
         ];
 
         try {
-            $response = $this->httpClient->post($this->prepareUrl(), [
-                'headers' => $headers,
-                'body' => $json,
+            $url = parse_url($this->prepareUrl());
+
+            $config = collect([
+                'headers'     => $headers,
+                'body'        => $json,
                 'http_errors' => false,
             ]);
+
+            if ($url['scheme'] == 'https') {
+                $config->put('verify', collect($this->config)->get('verify', false));
+
+                if (collect($this->config)->get('ssl_key')) {
+                    $config->put('ssl_key', collect($this->config)->get('ssl_key'));
+                }
+            }
+
+            $response = $this->httpClient->post($this->prepareUrl(), $config->toArray());
 
             $finally = json_decode((string) $response->getBody(), true)[0];
         } catch (ClientException $e) {
@@ -302,10 +317,10 @@ class Centrifuge implements CentrifugeContract
 
     /**
      * Send message to centrifuge server from redis client.
-     *
-     * @param  string $method
-     * @param  array  $params
-     * @return mixed
+     * @param $method
+     * @param array $params
+     * @return array
+     * @throws PredisException
      */
     protected function redisSend($method, array $params = [])
     {
