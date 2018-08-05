@@ -71,25 +71,13 @@ For the redis configuration, add a new connection in config/database.php
 ],
 ```
 
-and open your config/broadcasting.php and set the redis_connection parameter
-
-```php
-'connections' => [
-    'centrifuge' => [
-        // ...
-        'redis_connection' => 'centrifuge',
-        // ...
-    ],
-],
-```
-
 You can also add a configuration to your .env file:
 
 ```
 CENTRIFUGE_SECRET=very-long-secret-key
 CENTRIFUGE_URL=http://localhost:8000
 CENTRIFUGE_REDIS_API=false
-CENTRIFUGE_REDIS_CONNECTION=default
+CENTRIFUGE_REDIS_CONNECTION=centrifuge
 CENTRIFUGE_REDIS_PREFIX=centrifugo
 CENTRIFUGE_REDIS_NUM_SHARDS=0
 CENTRIFUGE_SSL_KEY=/etc/ssl/some.pem
